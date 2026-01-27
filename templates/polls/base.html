@@ -1,0 +1,15 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+
+{% include "polls/head.html"%} ==<!--head분리-->==
+<body>
+    {% include "polls/header.html" %}
+    <main> 
+    {% block content %}
+          <!-- 컨텐츠 들어가는 자리 -->
+    {% endblock %}
+    </main>
+    {% include "polls/footer.html"%}
+</body>
+</html>

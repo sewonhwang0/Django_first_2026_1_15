@@ -1,0 +1,64 @@
+
+
+{% extends "polls/base.html" %}
+{% load static %}
+
+{% block title %}최근 질문{% endblock %}
+
+{% block content %}
+<h1>최근 질문</h1>
+
+{# 쿼리스트링 GET 폼 #}
+<form method="get" class="filter-form">
+  <input type="text" name="q" placeholder="질문 검색" value="{{ request.GET.q }}">
+
+  <select name="order">
+    <option value="">최신순</option>
+    <option value="oldest" {% if request.GET.order == "oldest" %}selected{% endif %}>
+      오래된순
+    </option>
+  </select>
+
+  <label>
+    <input type="checkbox" name="show" value="future"
+           {% if request.GET.show == "future" %}checked{% endif %}>
+    미래 질문 포함
+  </label>
+
+  <input type="text" name="start" placeholder="start: 2026-01-01" value="{{ request.GET.start }}">
+  <input type="text" name="end" placeholder="end: 2026-01-31" value="{{ request.GET.end }}">
+
+  <button type="submit">적용</button>
+  <a href="{% url 'polls:index' %}">초기화</a>
+</form>
+
+<hr>
+
+{% if latest_question_list %}
+<ul class="question-list">
+  {% for question in latest_question_list %}
+  <li class="question-item">
+    <div class="question-text">
+      <a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
+    </div>
+
+    <div class="question-actions">
+      {# 글생성은 목록에서 1번만 보여도 되지만, 너 스타일 유지하면 여기 둬도 OK #}
+      <a href="{% url 'polls:question_create' %}" class="button create">글생성</a>
+      <a href="{% url 'polls:question_update' question.id %}" class="button update">수정</a>
+      <a href="{% url 'polls:question_delete' question.id %}" class="button delete">삭제</a>
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No polls are available.</p>
+{% endif %}
+{% endblock %}
+
+
+
+
+
+
+
