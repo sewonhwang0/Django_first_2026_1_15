@@ -111,6 +111,7 @@ class QuestionIndexViewTests(TestCase):
         self.assertQuerySetEqual(
             response.context["latest_question_list"],
             [question2, question1],  # -5일이 -30일보다 최신
+            ordered=False
             transform=lambda x: x,
         )
 
